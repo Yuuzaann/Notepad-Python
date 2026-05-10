@@ -1,0 +1,201 @@
+Bertindak sebagai Senior Python Software Engineer, Desktop Application Architect, dan UI/UX Engineer dengan pengalaman membangun desktop software production-grade.
+
+Tugasmu adalah membuat aplikasi desktop “Modern Notepad Pro” menggunakan Python dengan kualitas enterprise:
+- Clean Architecture
+- Production-ready
+- Aman
+- Modular
+- Scalable
+- Maintainable
+- Modern UI/UX
+- High performance
+
+====================================================
+# TECH STACK (WAJIB)
+====================================================
+
+Gunakan:
+- Python 3.12+
+- PySide6 (WAJIB)
+- Qt Framework
+- SQLite
+- QSS Styling System
+- MVC / Clean Architecture
+- Async-safe architecture
+
+DILARANG:
+- Tkinter
+- Kivy
+- PyQt5
+- Spaghetti code
+- Monolithic file
+
+====================================================
+# OBJECTIVE
+====================================================
+
+Buat aplikasi notepad modern professional seperti gabungan:
+- Windows Notepad modern
+- VSCode minimal
+- Sublime Text lite
+
+Dengan:
+- UI modern
+- Fast performance
+- Smooth interaction
+- Clean layout
+- Professional UX
+
+====================================================
+# MAIN FEATURES
+====================================================
+
+WAJIB memiliki fitur berikut:
+
+1. MULTI TAB EDITOR
+- Multiple open files
+- Close/open tab
+- Drag reorder tabs
+- Duplicate tab
+- Unsaved file indicator (*)
+- Restore tabs after restart
+
+2. FILE SYSTEM
+- New file
+- Open file
+- Save
+- Save As
+- Auto save
+- Recent files
+- Detect external file modification
+- Backup temp file
+
+3. ADVANCED TEXT EDITOR
+- Syntax highlighting
+- Line number
+- Current line highlight
+- Auto indentation
+- Smart tab/spaces
+- Bracket pairing
+- Undo/redo
+- Zoom in/out
+- Minimap editor
+- Smooth scrolling
+
+4. SEARCH & REPLACE
+- Find text
+- Replace text
+- Replace all
+- Regex support
+- Match case
+- Highlight results realtime
+
+5. SIDEBAR FILE EXPLORER
+- Tree view
+- Open folder
+- Expand/collapse
+- Right click context menu
+- Quick file navigation
+
+6. STATUS BAR REALTIME
+Tampilkan:
+- Current line
+- Current column
+- Encoding
+- File extension
+- Word count
+- Character count
+- Zoom percentage
+
+7. THEME SYSTEM
+Sediakan:
+- Dark Theme
+- Light Theme
+- Dracula Theme
+- Midnight Theme
+
+Features:
+- Dynamic switching
+- Persistent settings
+- Modular QSS themes
+
+8. SETTINGS SYSTEM
+Simpan:
+- Theme
+- Font size
+- Window size
+- Last opened tabs
+- Editor preferences
+- Recent files
+
+====================================================
+# UI / UX REQUIREMENTS
+====================================================
+
+Buat UI professional modern seperti software premium.
+
+Style:
+- VSCode inspired
+- Minimalist
+- Dark modern
+- Rounded corner
+- Soft shadow
+- Smooth hover
+- Elegant spacing
+
+Layout:
+----------------------------------------------------
+| Toolbar                                           |
+----------------------------------------------------
+| Sidebar | Multi Tab Editor                       |
+|         |                                        |
+|         |                                        |
+----------------------------------------------------
+| Status Bar                                       |
+----------------------------------------------------
+
+Tambahkan:
+- Animated sidebar
+- Smooth transitions
+- Acrylic effect
+- Elegant dialogs
+- Toast notifications
+- Loading indicator
+- Welcome screen
+- Empty state UI
+- Professional icons
+
+====================================================
+# ARCHITECTURE REQUIREMENTS
+====================================================
+
+Gunakan Clean Architecture penuh.
+
+Pisahkan:
+- UI Layer
+- Business Logic
+- Database Layer
+- Theme System
+- File Manager
+- Editor Engine
+- Services
+- Utility Layer
+
+Struktur project WAJIB:
+```plaintext
+modern_notepad/
+│
+├── main.py
+├── requirements.txt
+├── config/
+├── core/
+├── services/
+├── database/
+├── models/
+├── ui/
+├── widgets/
+├── themes/
+├── assets/
+├── utils/
+├── logs/
+└── tests/
