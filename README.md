@@ -236,11 +236,7 @@ Contributions are welcome. To add a new theme:
 2. Add the theme name to `AVAILABLE_THEMES` in `themes/theme_manager.py`
 3. Done — it will appear automatically in the Theme menu and Settings dialog
 
----
 
-## License
-
-MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
