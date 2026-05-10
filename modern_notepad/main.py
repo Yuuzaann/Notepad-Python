@@ -5,12 +5,36 @@ Modern Notepad Pro — Entry Point
 import sys
 import os
 
-# Ensure current directory is in the path for clean imports
+# Ensure the app directory is on the path for clean imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+
+def _check_dependencies() -> None:
+    missing = []
+    try:
+        import PySide6
+    except ImportError:
+        missing.append("PySide6")
+    try:
+        import pygments
+    except ImportError:
+        missing.append("Pygments")
+
+    if missing:
+        pkgs = " ".join(missing)
+        print(
+            f"\n[Modern Notepad Pro] Missing dependencies: {', '.join(missing)}\n"
+            f"Install them with:\n\n    pip install {pkgs}\n"
+        )
+        if "PySide6" in missing:
+            sys.exit(1)
+
+
+_check_dependencies()
 
 from PySide6.QtWidgets import QApplication
 from PySide6.QtCore import Qt, QCoreApplication
-from PySide6.QtGui import QIcon, QFont
+from PySide6.QtGui import QFont
 
 from core.constants import AppConstants
 from utils.logger import get_logger

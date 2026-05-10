@@ -7,57 +7,15 @@ from PySide6.QtGui import (
     QFont,
     QTextDocument,
 )
-from PySide6.QtCore import QRegularExpression
-from pygments import lex
-from pygments.lexers import get_lexer_for_filename, get_lexer_by_name, TextLexer
-from pygments.token import Token
-from pygments.util import ClassNotFound
 
-
-DARK_PALETTE = {
-    Token.Keyword: ("#569cd6", False, False),
-    Token.Keyword.Constant: ("#569cd6", False, False),
-    Token.Keyword.Declaration: ("#569cd6", False, False),
-    Token.Keyword.Namespace: ("#c586c0", False, False),
-    Token.Keyword.Type: ("#4ec9b0", False, False),
-    Token.Name.Builtin: ("#dcdcaa", False, False),
-    Token.Name.Function: ("#dcdcaa", False, False),
-    Token.Name.Class: ("#4ec9b0", False, True),
-    Token.Name.Decorator: ("#dcdcaa", False, False),
-    Token.Name.Exception: ("#f44747", False, False),
-    Token.String: ("#ce9178", False, False),
-    Token.String.Doc: ("#608b4e", False, False),
-    Token.Comment: ("#608b4e", False, True),
-    Token.Comment.Single: ("#608b4e", False, True),
-    Token.Comment.Multiline: ("#608b4e", False, True),
-    Token.Number: ("#b5cea8", False, False),
-    Token.Number.Integer: ("#b5cea8", False, False),
-    Token.Number.Float: ("#b5cea8", False, False),
-    Token.Operator: ("#d4d4d4", False, False),
-    Token.Punctuation: ("#d4d4d4", False, False),
-    Token.Name.Tag: ("#4ec9b0", False, False),
-    Token.Name.Attribute: ("#9cdcfe", False, False),
-    Token.Literal.String.Single: ("#ce9178", False, False),
-    Token.Literal.String.Double: ("#ce9178", False, False),
-    Token.Literal.Number: ("#b5cea8", False, False),
-}
-
-LIGHT_PALETTE = {
-    Token.Keyword: ("#0000ff", True, False),
-    Token.Keyword.Declaration: ("#0000ff", True, False),
-    Token.Keyword.Namespace: ("#af00db", False, False),
-    Token.Keyword.Type: ("#267f99", False, False),
-    Token.Name.Builtin: ("#795e26", False, False),
-    Token.Name.Function: ("#795e26", False, False),
-    Token.Name.Class: ("#267f99", False, True),
-    Token.Name.Decorator: ("#795e26", False, False),
-    Token.String: ("#a31515", False, False),
-    Token.Comment: ("#008000", False, True),
-    Token.Number: ("#098658", False, False),
-    Token.Operator: ("#000000", False, False),
-    Token.Name.Tag: ("#800000", False, False),
-    Token.Name.Attribute: ("#ff0000", False, False),
-}
+try:
+    from pygments import lex
+    from pygments.lexers import get_lexer_for_filename, TextLexer
+    from pygments.token import Token
+    from pygments.util import ClassNotFound
+    PYGMENTS_AVAILABLE = True
+except ImportError:
+    PYGMENTS_AVAILABLE = False
 
 
 def _make_format(color: str, bold: bool, italic: bool) -> QTextCharFormat:
@@ -70,6 +28,59 @@ def _make_format(color: str, bold: bool, italic: bool) -> QTextCharFormat:
     return fmt
 
 
+def _build_dark_palette() -> dict:
+    if not PYGMENTS_AVAILABLE:
+        return {}
+    return {
+        Token.Keyword: ("#569cd6", False, False),
+        Token.Keyword.Constant: ("#569cd6", False, False),
+        Token.Keyword.Declaration: ("#569cd6", False, False),
+        Token.Keyword.Namespace: ("#c586c0", False, False),
+        Token.Keyword.Type: ("#4ec9b0", False, False),
+        Token.Name.Builtin: ("#dcdcaa", False, False),
+        Token.Name.Function: ("#dcdcaa", False, False),
+        Token.Name.Class: ("#4ec9b0", False, True),
+        Token.Name.Decorator: ("#dcdcaa", False, False),
+        Token.Name.Exception: ("#f44747", False, False),
+        Token.String: ("#ce9178", False, False),
+        Token.String.Doc: ("#608b4e", False, False),
+        Token.Comment: ("#608b4e", False, True),
+        Token.Comment.Single: ("#608b4e", False, True),
+        Token.Comment.Multiline: ("#608b4e", False, True),
+        Token.Number: ("#b5cea8", False, False),
+        Token.Number.Integer: ("#b5cea8", False, False),
+        Token.Number.Float: ("#b5cea8", False, False),
+        Token.Operator: ("#d4d4d4", False, False),
+        Token.Punctuation: ("#d4d4d4", False, False),
+        Token.Name.Tag: ("#4ec9b0", False, False),
+        Token.Name.Attribute: ("#9cdcfe", False, False),
+        Token.Literal.String.Single: ("#ce9178", False, False),
+        Token.Literal.String.Double: ("#ce9178", False, False),
+        Token.Literal.Number: ("#b5cea8", False, False),
+    }
+
+
+def _build_light_palette() -> dict:
+    if not PYGMENTS_AVAILABLE:
+        return {}
+    return {
+        Token.Keyword: ("#0000ff", True, False),
+        Token.Keyword.Declaration: ("#0000ff", True, False),
+        Token.Keyword.Namespace: ("#af00db", False, False),
+        Token.Keyword.Type: ("#267f99", False, False),
+        Token.Name.Builtin: ("#795e26", False, False),
+        Token.Name.Function: ("#795e26", False, False),
+        Token.Name.Class: ("#267f99", False, True),
+        Token.Name.Decorator: ("#795e26", False, False),
+        Token.String: ("#a31515", False, False),
+        Token.Comment: ("#008000", False, True),
+        Token.Number: ("#098658", False, False),
+        Token.Operator: ("#000000", False, False),
+        Token.Name.Tag: ("#800000", False, False),
+        Token.Name.Attribute: ("#ff0000", False, False),
+    }
+
+
 class SyntaxHighlighter(QSyntaxHighlighter):
     def __init__(self, document: QTextDocument, filename: str = "", theme: str = "Dark"):
         super().__init__(document)
@@ -77,18 +88,21 @@ class SyntaxHighlighter(QSyntaxHighlighter):
         self._theme = theme
         self._lexer = None
         self._formats: dict = {}
-        self._set_lexer(filename)
-        self._build_formats()
+        if PYGMENTS_AVAILABLE:
+            self._set_lexer(filename)
+            self._build_formats()
 
     def set_filename(self, filename: str) -> None:
         self._filename = filename
-        self._set_lexer(filename)
-        self.rehighlight()
+        if PYGMENTS_AVAILABLE:
+            self._set_lexer(filename)
+            self.rehighlight()
 
     def set_theme(self, theme: str) -> None:
         self._theme = theme
-        self._build_formats()
-        self.rehighlight()
+        if PYGMENTS_AVAILABLE:
+            self._build_formats()
+            self.rehighlight()
 
     def _set_lexer(self, filename: str) -> None:
         if not filename:
@@ -100,7 +114,11 @@ class SyntaxHighlighter(QSyntaxHighlighter):
             self._lexer = TextLexer()
 
     def _build_formats(self) -> None:
-        palette = DARK_PALETTE if self._theme.lower() in ("dark", "dracula", "midnight") else LIGHT_PALETTE
+        palette = (
+            _build_dark_palette()
+            if self._theme.lower() in ("dark", "dracula", "midnight")
+            else _build_light_palette()
+        )
         self._formats = {}
         for token_type, (color, bold, italic) in palette.items():
             self._formats[token_type] = _make_format(color, bold, italic)
@@ -113,7 +131,9 @@ class SyntaxHighlighter(QSyntaxHighlighter):
         return None
 
     def highlightBlock(self, text: str) -> None:
-        if not self._lexer or isinstance(self._lexer, TextLexer):
+        if not PYGMENTS_AVAILABLE or not self._lexer:
+            return
+        if isinstance(self._lexer, TextLexer):
             return
 
         block = self.currentBlock()
